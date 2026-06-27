@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tahoe OS</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Desktop Container -->
+  <div id="desktop">
+    <!-- Menu Bar -->
+    <div id="menubar">
+      <div class="menubar-left">
+        <button class="menu-apple" id="appleMenu" title="Apple menu">&#63743;</button>
+        <span class="menubar-appname" id="activeAppName">Finder</span>
+        <div class="menubar-menus">
+          <span class="menu-item" data-menu="file">File</span>
+          <span class="menu-item" data-menu="edit">Edit</span>
+          <span class="menu-item" data-menu="view">View</span>
+          <span class="menu-item" data-menu="window">Window</span>
+          <span class="menu-item" data-menu="help">Help</span>
+        </div>
+      </div>
+      <div class="menubar-right">
+        <div class="status-icon" id="spotlightIcon" title="Spotlight">&#128269;</div>
+        <div class="status-icon" title="Wi-Fi">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 2C5.5 2 3.2 3 1.5 4.7l1 1C4 4.3 5.9 3.5 8 3.5s4 .8 5.5 2.2l1-1C12.8 3 10.5 2 8 2z" fill="currentColor"/>
+            <path d="M8 5c-1.7 0-3.2.7-4.3 1.8l1 1C5.5 7 6.7 6.5 8 6.5s2.5.5 3.3 1.3l1-1C11.2 5.7 9.7 5 8 5z" fill="currentColor"/>
+            <path d="M8 8c-1 0-2 .4-2.7 1.1l1 1c.5-.4 1.1-.7 1.7-.7s1.2.3 1.7.7l1-1C10 8.4 9 8 8 8z" fill="currentColor"/>
+            <circle cx="8" cy="11.5" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="status-icon" title="Battery">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="5" width="12" height="6" rx="1" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <rect x="13" y="7" width="2" height="2" rx="0.5" fill="currentColor"/>
+            <rect x="2.5" y="6.5" width="9" height="3" rx="0.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="status-icon" title="Control Center">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="0.5" y="0.5" width="5" height="5" rx="0.5" stroke="currentColor" fill="none"/>
+            <rect x="8.5" y="0.5" width="5" height="5" rx="0.5" stroke="currentColor" fill="none"/>
+            <rect x="0.5" y="8.5" width="5" height="5" rx="0.5" stroke="currentColor" fill="none"/>
+            <rect x="8.5" y="8.5" width="5" height="5" rx="0.5" stroke="currentColor" fill="none"/>
+          </svg>
+        </div>
+        <div class="menubar-time" id="clockDisplay"></div>
+      </div>
+    </div>
+
+    <!-- Desktop Area -->
+    <div id="desktopArea">
+      <!-- Desktop Icons -->
+      <div class="desktop-icon" data-app="finder" style="top: 30px; left: 30px;">
+        <div class="desktop-icon-img finder-icon-sm"></div>
+        <span class="desktop-icon-label">Macintosh HD</span>
+      </div>
+      <div class="desktop-icon" data-app="applications" style="top: 30px; left: 130px;">
+        <div class="desktop-icon-img applications-icon-sm"></div>
+        <span class="desktop-icon-label">Applications</span>
+      </div>
+      <div class="desktop-icon" data-app="documents" style="top: 140px; left: 30px;">
+        <div class="desktop-icon-img documents-icon-sm"></div>
+        <span class="desktop-icon-label">Documents</span>
+      </div>
+      <div class="desktop-icon" data-app="downloads" style="top: 140px; left: 130px;">
+        <div class="desktop-icon-img downloads-icon-sm"></div>
+        <span class="desktop-icon-label">Downloads</span>
+      </div>
+      <div class="desktop-icon" data-app="trash" style="top: 250px; left: 30px;">
+        <div class="desktop-icon-img trash-icon-sm"></div>
+        <span class="desktop-icon-label">Trash</span>
+      </div>
+
+      <!-- Windows Container -->
+      <div id="windowsContainer"></div>
+
+      <!-- Launchpad Overlay -->
+      <div id="launchpad">
+        <div class="launchpad-header">
+          <input type="text" class="launchpad-search" placeholder="Search apps..." />
+        </div>
+        <div class="launchpad-grid" id="launchpadGrid"></div>
+        <div class="launchpad-footer">
+          <span class="launchpad-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Notification Center -->
+      <div id="notificationCenter">
+        <div class="nc-header">
+          <h3>Notifications</h3>
+          <button class="nc-clear" id="clearNotifications">Clear</button>
+        </div>
+        <div class="nc-content">
+          <div class="nc-empty">No new notifications</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dock -->
+    <div id="dock">
+      <div id="dockItems">
+        <div class="dock-item active" data-app="finder" title="Finder">
+          <div class="dock-icon finder-icon"></div>
+          <span class="dock-label">Finder</span>
+        </div>
+        <div class="dock-item" data-app="safari" title="Safari">
+          <div class="dock-icon safari-icon"></div>
+          <span class="dock-label">Safari</span>
+        </div>
+        <div class="dock-item" data-app="terminal" title="Terminal">
+          <div class="dock-icon terminal-icon"></div>
+          <span class="dock-label">Terminal</span>
+        </div>
+        <div class="dock-item" data-app="settings" title="Settings">
+          <div class="dock-icon settings-icon"></div>
+          <span class="dock-label">Settings</span>
+        </div>
+        <div class="dock-item" data-app="calendar" title="Calendar">
+          <div class="dock-icon calendar-icon"></div>
+          <span class="dock-label">Calendar</span>
+        </div>
+        <div class="dock-item" data-app="notes" title="Notes">
+          <div class="dock-icon notes-icon"></div>
+          <span class="dock-label">Notes</span>
+        </div>
+        <div class="dock-item" data-app="music" title="Music">
+          <div class="dock-icon music-icon"></div>
+          <span class="dock-label">Music</span>
+        </div>
+        <div class="dock-item" data-app="photos" title="Photos">
+          <div class="dock-icon photos-icon"></div>
+          <span class="dock-label">Photos</span>
+        </div>
+        <div class="dock-item" data-app="messages" title="Messages">
+          <div class="dock-icon messages-icon"></div>
+          <span class="dock-label">Messages</span>
+        </div>
+        <div class="dock-item" data-app="calculator" title="Calculator">
+          <div class="dock-icon calculator-icon"></div>
+          <span class="dock-label">Calculator</span>
+        </div>
+        <div class="dock-separator"></div>
+        <div class="dock-item" data-app="launchpad" title="Launchpad">
+          <div class="dock-icon launchpad-icon"></div>
+          <span class="dock-label">Launchpad</span>
+        </div>
+        <div class="dock-item" data-app="trash" title="Trash">
+          <div class="dock-icon trash-icon"></div>
+          <span class="dock-label">Trash</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apple Menu Dropdown -->
+    <div class="dropdown-menu" id="appleMenuDropdown">
+      <div class="menu-list">
+        <div class="menu-list-item" data-action="about">About This Tahoe</div>
+        <div class="menu-separator"></div>
+        <div class="menu-list-item" data-action="system">System Settings...</div>
+        <div class="menu-list-item" data-action="appstore">App Store...</div>
+        <div class="menu-separator"></div>
+        <div class="menu-list-item" data-action="recent">Recent Items</div>
+        <div class="menu-separator"></div>
+        <div class="menu-list-item" data-action="lock">Lock Screen</div>
+        <div class="menu-list-item" data-action="logout">Log Out...</div>
+        <div class="menu-separator"></div>
+        <div class="menu-list-item" data-action="restart">Restart...</div>
+        <div class="menu-list-item" data-action="shutdown">Shut Down...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Dialog -->
+  <div class="dialog-overlay hidden" id="aboutDialog">
+    <div class="dialog" id="aboutDialogContent">
+      <div class="dialog-icon tahoe-logo-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="28" fill="#3A86FF"/>
+          <path d="M32 18c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14-6.3-14-14-14zm0 24c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10z" fill="#fff" opacity="0.3"/>
+          <path d="M32 22c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 16c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z" fill="#fff" opacity="0.3"/>
+          <circle cx="32" cy="32" r="8" fill="#fff" opacity="0.8"/>
+          <path d="M28 30h8v4h-8z" fill="#3A86FF"/>
+          <path d="M32 18v-4M36 19l-2-4M28 19l2-4" stroke="#3A86FF" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+      </div>
+      <h2>Tahoe OS</h2>
+      <p class="dialog-version">Version 26.0 (Beta 1)</p>
+      <p class="dialog-subtitle">Built for performance. Made for everyone.</p>
+      <p class="dialog-info">Processor: 1.8GHz Intel Core 2 Duo<br/>Memory: 4 GB 667 MHz DDR2<br/>Startup Disk: TahoeHD</p>
+      <button class="dialog-btn" id="closeAbout">Close</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
