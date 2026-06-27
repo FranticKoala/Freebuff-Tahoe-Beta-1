@@ -48,7 +48,6 @@
   ];
 
   // ---------- DOM refs ----------
-  const desktop = document.getElementById("desktop");
   const loginScreen = document.getElementById("loginScreen");
   const loginPassword = document.getElementById("loginPassword");
   const loginHint = document.getElementById("loginHint");
@@ -77,6 +76,7 @@
     loginClock.textContent = h + ":" + m + " " + ampm;
   }
   updateLoginClock();
+  setInterval(updateLoginClock, 30000);
 
   function unlockScreen() {
     loginScreen.classList.add("hidden");
@@ -114,8 +114,11 @@
     loginPassword.focus();
   });
 
-  // Lock screen via keyboard shortcut (Ctrl+Cmd+Q style from macOS)
+  // Lock screen via keyboard shortcut (Escape from desktop)
   document.addEventListener("keydown", function (e) {
+    // Don't lock if typing in an input or textarea
+    var tag = document.activeElement && document.activeElement.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
     // Escape from desktop locks the screen
     if (e.key === "Escape" && !loginScreen.classList.contains("locked") && !launchpad.classList.contains("open")) {
       // Only if no dialog is open
@@ -176,7 +179,8 @@
         lockScreen();
       } else {
         // Log out - close all windows then lock
-        for (var wid in windows) { closeWindow(wid); }
+        var windowIds = Object.keys(windows);
+        for (var w = 0; w < windowIds.length; w++) { closeWindow(windowIds[w]); }
         lockScreen();
       }
     } else if (action === "restart") {
