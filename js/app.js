@@ -48,6 +48,8 @@
   ];
 
   // ---------- DOM refs ----------
+  const bootSplash = document.getElementById("bootSplash");
+  const bootProgressBar = document.getElementById("bootProgressBar");
   const loginScreen = document.getElementById("loginScreen");
   const loginPassword = document.getElementById("loginPassword");
   const loginHint = document.getElementById("loginHint");
@@ -65,6 +67,36 @@
   const notificationCenter = document.getElementById("notificationCenter");
   const notificationsContent = document.querySelector(".nc-content");
   const menubarAppName = document.getElementById("activeAppName");
+
+  // ---------- Boot Animation ----------
+  function runBootAnimation(callback) {
+    // Animate progress bar
+    var progress = 0;
+    var interval = setInterval(function () {
+      progress += Math.random() * 15 + 5;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        // Brief pause then fade out boot screen
+        setTimeout(function () {
+          bootSplash.classList.add("done");
+          // Wait for fade transition, then show login
+          setTimeout(function () {
+            bootSplash.style.display = "none";
+            if (callback) callback();
+          }, 500);
+        }, 300);
+      }
+      bootProgressBar.style.width = Math.min(progress, 100) + "%";
+    }, 200);
+  }
+
+  // Start boot, then show login when done
+  runBootAnimation(function () {
+    loginScreen.classList.remove("locked");
+    loginScreen.style.display = "";
+    setTimeout(function () { loginPassword.focus(); }, 300);
+  });
 
   // ---------- Login / Lock Screen ----------
   function updateLoginClock() {
@@ -963,10 +995,9 @@
     });
   });
 
-  // ---------- Desktop starts locked ----------
-  // Desktop is hidden behind login screen.
-  // Finder opens on unlock via loginPassword keydown handler.
-  // Focus the password field immediately so the user can type.
-  setTimeout(function () { loginPassword.focus(); }, 300);
+  // ---------- Boot handles initialization ----------
+  // Boot animation runs on load (see runBootAnimation above).
+  // After boot, login screen appears and password field is focused.
+  // Desktop stays hidden behind login; Finder opens on unlock via Enter key.
 
 })();

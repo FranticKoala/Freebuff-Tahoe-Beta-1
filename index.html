@@ -7,6 +7,28 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- Boot Splash Screen -->
+  <div id="bootSplash">
+    <div class="boot-content">
+      <div class="boot-logo">
+        <svg width="80" height="80" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="28" fill="#3A86FF"/>
+          <path d="M32 18c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14-6.3-14-14-14zm0 24c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10z" fill="#fff" opacity="0.3"/>
+          <path d="M32 22c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 16c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z" fill="#fff" opacity="0.3"/>
+          <circle cx="32" cy="32" r="8" fill="#fff" opacity="0.8"/>
+          <path d="M28 30h8v4h-8z" fill="#3A86FF"/>
+        </svg>
+      </div>
+      <div class="boot-name">Tahoe</div>
+      <div class="boot-progress">
+        <div class="boot-progress-bar" id="bootProgressBar"></div>
+      </div>
+    </div>
+    <div class="boot-footer">
+      <span class="boot-version">v26.0 Beta 1</span>
+    </div>
+  </div>
+
   <!-- Login / Lock Screen -->
   <div id="loginScreen">
     <div class="login-container">
