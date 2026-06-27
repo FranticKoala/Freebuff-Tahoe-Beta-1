@@ -48,6 +48,12 @@
   ];
 
   // ---------- DOM refs ----------
+  const desktop = document.getElementById("desktop");
+  const loginScreen = document.getElementById("loginScreen");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginHint = document.getElementById("loginHint");
+  const loginStatus = document.getElementById("loginStatus");
+  const loginClock = document.getElementById("loginClock");
   const desktopArea = document.getElementById("desktopArea");
   const windowsContainer = document.getElementById("windowsContainer");
   const dockItems = document.getElementById("dockItems");
@@ -60,6 +66,65 @@
   const notificationCenter = document.getElementById("notificationCenter");
   const notificationsContent = document.querySelector(".nc-content");
   const menubarAppName = document.getElementById("activeAppName");
+
+  // ---------- Login / Lock Screen ----------
+  function updateLoginClock() {
+    var now = new Date();
+    var h = now.getHours();
+    var m = String(now.getMinutes()).padStart(2, "0");
+    var ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    loginClock.textContent = h + ":" + m + " " + ampm;
+  }
+  updateLoginClock();
+
+  function unlockScreen() {
+    loginScreen.classList.add("hidden");
+    loginScreen.classList.remove("locked");
+    loginStatus.textContent = "";
+    loginPassword.value = "";
+  }
+
+  function lockScreen() {
+    loginScreen.classList.remove("hidden");
+    loginScreen.classList.add("locked");
+    loginHint.textContent = "Click to unlock";
+    setTimeout(function () { loginPassword.focus(); }, 100);
+  }
+
+  // Focus password on login screen click
+  loginScreen.addEventListener("click", function () {
+    loginPassword.focus();
+    loginHint.textContent = "Enter your password";
+  });
+
+  // Unlock on Enter
+  loginPassword.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      unlockScreen();
+      // Ensure desktop is fully visible
+      if (Object.keys(windows).length === 0) {
+        openApp("finder");
+      }
+    }
+  });
+
+  // Click avatar to focus password
+  document.getElementById("loginAvatar").addEventListener("click", function () {
+    loginPassword.focus();
+  });
+
+  // Lock screen via keyboard shortcut (Ctrl+Cmd+Q style from macOS)
+  document.addEventListener("keydown", function (e) {
+    // Escape from desktop locks the screen
+    if (e.key === "Escape" && !loginScreen.classList.contains("locked") && !launchpad.classList.contains("open")) {
+      // Only if no dialog is open
+      var anyDialog = document.querySelector(".dialog-overlay:not(.hidden)");
+      if (!anyDialog) {
+        lockScreen();
+      }
+    }
+  });
 
   // ---------- Utility ----------
   function $(sel, ctx) {
@@ -107,7 +172,13 @@
     if (action === "about") {
       aboutDialog.classList.remove("hidden");
     } else if (action === "lock" || action === "logout") {
-      showNotification("System", `User ${action === "lock" ? "locked" : "logged out"} the screen.`);
+      if (action === "lock") {
+        lockScreen();
+      } else {
+        // Log out - close all windows then lock
+        for (var wid in windows) { closeWindow(wid); }
+        lockScreen();
+      }
     } else if (action === "restart") {
       showNotification("System", "Restarting Tahoe OS…");
     } else if (action === "shutdown") {
@@ -888,7 +959,10 @@
     });
   });
 
-  // ---------- Open Finder by default ----------
-  openApp("finder");
+  // ---------- Desktop starts locked ----------
+  // Desktop is hidden behind login screen.
+  // Finder opens on unlock via loginPassword keydown handler.
+  // Focus the password field immediately so the user can type.
+  setTimeout(function () { loginPassword.focus(); }, 300);
 
 })();

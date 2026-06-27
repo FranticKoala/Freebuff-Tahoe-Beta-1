@@ -25,6 +25,134 @@ html, body {
   cursor: default;
 }
 
+/* ---------- Login / Lock Screen ---------- */
+#loginScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #1B2838;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 30000;
+  transition: opacity 0.3s ease;
+}
+
+#loginScreen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loginScreen.locked {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: -60px;
+}
+
+.login-logo {
+  margin-bottom: 4px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #E5E5E7;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.login-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #3A86FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #FFF;
+  margin-bottom: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.login-avatar:hover {
+  border-color: rgba(255,255,255,0.3);
+}
+
+.login-username {
+  font-size: 15px;
+  font-weight: 500;
+  color: #E5E5E7;
+  margin-bottom: 12px;
+}
+
+.login-password-wrapper {
+  position: relative;
+  width: 200px;
+}
+
+.login-password {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.10);
+  color: #E5E5E7;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.login-password::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.login-password:focus {
+  border-color: #3A86FF;
+  background: rgba(255,255,255,0.15);
+}
+
+.login-hint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 8px;
+  cursor: default;
+}
+
+.login-status {
+  font-size: 12px;
+  color: #FF5F57;
+  height: 16px;
+  margin-top: 4px;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 40px;
+  text-align: center;
+}
+
+.login-clock {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
 /* ---------- Desktop ---------- */
 #desktop {
   width: 100%;
